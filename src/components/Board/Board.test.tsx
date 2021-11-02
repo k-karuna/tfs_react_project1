@@ -14,7 +14,7 @@ const account = ({ type, currency }: any) => ({
 
 describe('Board', () => {
     /**
-     * Тебе нужно написать код реализации компонента Board в файле Board.js
+     * Тебе нужно написать код реализации компонента Board в файле Board.ts
      *
      * Компонент Board
      * Пример использования: <Board accounts={[ account1, account2, ... ]} />

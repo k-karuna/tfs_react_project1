@@ -43,18 +43,15 @@ describe('NewAccountForm', () => {
 		expect(year.length).toBe(1);
 	});
 
-	it('В первоначальном state компонента есть параметр month и year', () => {
-		expect(component.state().month).toBe('');
-		expect(component.state().year).toBe('');
-	});
-
 	it('Проверяем, корректность ввода инпутов', () => {
 		cardNumber.simulate(
 			'change',
 			createEvent('cardNumber', '1111222233334444')
 		);
 
-		expect(component.state().cardNumber).toBe('1111 2222 3333 4444');
+		const cardNumberComponent = component.find('MaskedInput[name="cardNumber"]');
+
+		expect(cardNumberComponent.prop('value')).toBe('1111 2222 3333 4444');
 	});
 
 	it('Если все поля заполнены, то отравка формы должна работать', () => {
@@ -82,9 +79,13 @@ describe('NewAccountForm', () => {
 
 		form.simulate('submit');
 
-		expect(component.state().month).toBe('');
-		expect(component.state().year).toBe('');
-		expect(component.state().cardNumber).toBe('');
+		const cardNumberComponent = component.find('MaskedInput[name="cardNumber"]');
+		const monthComponent = component.find('MaskedInput[name="cardNumber"]');
+		const yearComponent = component.find('MaskedInput[name="cardNumber"]');
+
+		expect(monthComponent.prop('value')).toBe('');
+		expect(yearComponent.prop('value')).toBe('');
+		expect(cardNumberComponent.prop('value')).toBe('');
 	});
 
 	it('Если поля не заполнены, то форму не отправляем', () => {

@@ -48,6 +48,10 @@ describe('Интеграционный тест', () => {
 
     component.find('form').simulate('submit');
 
-    expect(component.state().accounts).toEqual(result);
+    const board = component.find('Board');
+
+    component.render();
+
+    expect(board.prop('accounts')).toEqual(result);
   });
 });
