@@ -1,91 +1,115 @@
-# tfs-react-hw
+# TFS Frontend - React Homework
+
+![react logo](public/react-logo.png)
+
+Репозиторий с домашними заданиями по курсу React.
+
+Основан на [create-react-app](https://github.com/facebook/create-react-app).
+
+## FAQ
+
+<details>
+<summary>Как выполнять домашние задания?</summary>
+
+* Клонируем репозиторий.
+* Запускаем команду `npm install`.
+* Запускаем команду `npm run test` и если видим "No tests found.." нажимаем на кнопку "A" на клавиатуре
+* Видим упавшие тесты (не расстраиваемся).
+* Начинаем реализовывать компоненты и добиваемся полного прохождения всех тестов.
+* Все зеленое, а значит мы справились и мы молодец.
+* Настраиваем репозиторий (нужно только один раз см. "Настройка CI").
+* Пушим и отправляем на проверку.
+</details>
+
+<details>
+<summary>Как запустить проект в браузере?</summary>
+
+* Запускаем команду `npm run start`.
+* Открываем [http://localhost:3000](http://localhost:3000)
+</details>
+
+<details>
+<summary>Настройка CI</summary>
+
+Нам нужно настроить автоматический деплой сайта на хостинг для того, чтобы было удобно проводить ревью приложения.
+
+1. Создаем аккаунт в сервисе vercel https://vercel.com/.
+1. Привязываем в настройках https://vercel.com/account/login-connections свой Gitlab аккаунт
+1. Заходим на страницу https://vercel.com/dashboard и нажимаем 'New project'
+1. Выбираете 'Import git repository' -> Находите свой репозиторий с заданием -> Import
+1. В настройках выбираете Framework preset = Create React App
+</details>
 
 
+## ДЗ №1 "Первые шаги"
 
-## Getting started
+*Ориентировочное время выполнения 3 часа.*
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Мы решили разработать свой интернет-банк. УРА!
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Начнем с возможности просмотра списка банковских продуктов, которые есть у пользователя.
 
-## Add your files
+Продукты могут быть разными - это дебетовые и кредитные карты, вклады, кредиты, а также привязанные карты сторонних банков. 
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Вся информация о продукте содержится в объекте
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/tfschool/autumn-2021/tfs-react-hw.git
-git branch -M main
-git push -uf origin main
+{
+    id: '1',
+    name: 'Дебетовая карта',
+    customName: 'Моя карта',
+    type: 'debit' | 'credit' | 'saving' | 'loan',
+    amount: '50000',
+    currency: 'RUB | USD'
+}
 ```
 
-## Integrate with your tools
+Баланс и валюту привязанных карт мы не знаем, поэтому с ними попроще
+```
+{
+    id: '2',
+    name: 'Карта ББТ',
+    customName: 'Моя карта',
+    type: 'external'
+}
+```
 
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/project/integrations/)
+Для отображения информации о продукте уже реализован компонент `BoardItem`, но его нужно немного доработать. (см. BoardItem.test.js)
 
-## Collaborate with your team
+За отображение списка всех продуктов отвечает компонент `Board`, его нужно реализовать самостоятельно.
 
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+**Не забудь про сортировку :).**
 
-## Test and Deploy
+Порядок следующий: дебетовые карты (debit) => кредитные (credit) => карты сторонних банков (external) => вклады (saving) => кредиты (loan).
+Если есть несколько аккаунтов одного типа, то сортируем их по валюте RUB => USD => EUR => GBP
 
-Use the built-in continuous integration in GitLab.
+Тестов довольно много и они могут сбить столку. Поэтому рекомендую начать с реализации небольших компонентов `Button` и `Money`. Затем можно приступить к `BoardItem`, `Board` и `NewAccountForm`. Если все сделано правильно, то интеграционные тесты `App.test.js` пройдут тоже.
 
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://docs.gitlab.com/ee/user/clusters/agent/)
 
-***
+**Все стили уже реализованы, главное их правильно подключить.**
 
-# Editing this README
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://gitlab.com/-/experiment/new_project_readme_content:c3c109e01f9a74e394bc885e354b4f74?https://www.makeareadme.com/) for this template.
+## Пример работы приложения
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+![пример работы приложения](public/hm1-example.gif)
 
-## Name
-Choose a self-explaining name for your project.
+## Структура оценки
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Максимум за работу можно получить 200 баллов.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+* Компонент `BoardItem` - 60 баллов
+* Форма привязки карт сторонних банков `NewAccountForm` - 60 баллов
+* Компонент `Board` - 80 баллов
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## TypeScript (допзадание)
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+В домашнем задании в качестве основного языка используется TypeScript. Использовать
+его **не обязательно**.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Если вы решили **не** использовать TypeScript, на любую ошибку типизации ставьте
+в качестве типа `any`.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
+Если вы решили использовать TypeScript, то:
+* Типизируйте все компоненты, входящие в задание (props и state)
+* Типизируйте все вспомогательные функции и компоненты, которые будете использовать
+* Не должно быть ни одного `any` в проекте
