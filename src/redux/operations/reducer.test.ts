@@ -52,11 +52,11 @@ describe('accounts reducer', () => {
     });
 
     it('При загрузке аккаунтов сбрасываем состояние до null', () => {
-        expect(reducer(operationsState, loadOperationsAction)).toBe(null);
+        expect(reducer(operationsState, loadOperationsAction())).toBe(null);
     });
 
     it('Если при загрузке произошла ошибка, то возвращаем null', () => {
-        expect(reducer(operationsState, loadOperationsFailureAction)).toBe(null);
+        expect(reducer(operationsState, loadOperationsFailureAction())).toBe(null);
     });
 
     it('Успешная загрузка данных, записываем в state загруженные данные', () => {
