@@ -10,7 +10,7 @@ const currencies = ['RUB', 'USD', 'EUR', 'GBP'];
 const Board: React.FC<any> = ({ accounts }) => {
   return (
     <div className={styles.board}>
-      {accounts
+      {[...accounts]
         .sort((acc1, acc2) => {
           const typeCompare =
             types.indexOf(acc1.type) - types.indexOf(acc2.type);
