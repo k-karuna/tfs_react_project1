@@ -4,6 +4,7 @@ import cn from 'classnames';
 import Button from '../Button/Button';
 
 import styles from './NewAccountForm.module.css';
+import cardDataValid from '../../utilities/cardDataValid';
 
 export default class NewAccountForm extends React.Component<any, any> {
   constructor(props) {
@@ -27,13 +28,10 @@ export default class NewAccountForm extends React.Component<any, any> {
   handleFormSubmit = (event) => {
     event.preventDefault();
 
-    const charArray = this.state.cardNumber.split('');
-
-    if (charArray.some((ch) => isNaN(ch))) return;
-
-    if (charArray.length !== 19) return;
-    if (this.state.year.length !== 2) return;
-    if (this.state.month.length !== 2) return;
+    if (
+      !cardDataValid(this.state.cardNumber, this.state.year, this.state.month)
+    )
+      return;
 
     this.props.handleSubmit({
       id: Date.now(),
@@ -71,6 +69,7 @@ export default class NewAccountForm extends React.Component<any, any> {
               value={this.state.month}
               onChange={this.handleInputChange}
               placeholder="MM"
+              pattern="0[1-9]|1[0-2]"
               className={cn(styles.input, styles.inputDate)}
             />
             /
@@ -81,6 +80,7 @@ export default class NewAccountForm extends React.Component<any, any> {
               value={this.state.year}
               onChange={this.handleInputChange}
               placeholder="YY"
+              pattern="[22-99]*"
               className={cn(styles.input, styles.inputDate)}
             />
           </div>
