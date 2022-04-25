@@ -1,5 +1,5 @@
 import React from 'react';
-import resolveCurrencySymbol from '../../utilities/resolveCurrencySymbol';
+import resolveCurrencySymbol from '../../utils/resolveCurrencySymbol';
 
 const Money: React.FC<any> = ({ value, currency }) => {
   const intValue = Math.trunc(value);
