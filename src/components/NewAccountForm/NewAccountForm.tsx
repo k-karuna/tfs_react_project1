@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Button from '../Button/Button';
 
 import styles from './NewAccountForm.module.css';
-import cardDataValid from '../../utilities/cardDataValid';
+import cardDataValid from '../../utils/cardDataValid';
 
 export default class NewAccountForm extends React.Component<any, any> {
   constructor(props) {

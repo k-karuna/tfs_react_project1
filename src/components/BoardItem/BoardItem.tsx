@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import Money from '../Money/Money';
 import styles from './BoardItem.module.css';
-import resolveCurrencySymbol from '../../utilities/resolveCurrencySymbol';
+import resolveCurrencySymbol from '../../utils/resolveCurrencySymbol';
 
 const BoardItem: React.FC<any> = ({
   type,
