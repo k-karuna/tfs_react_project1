@@ -1,22 +1,24 @@
-import Timeline from '../components/Timeline/Timeline';
-import { connect } from 'react-redux';
-import { getOperations } from '../services/requestMock';
-import { useEffect } from 'react';
+import Timeline from "../components/Timeline/Timeline";
+import { connect } from "react-redux";
+import { getOperations } from "../services/requestMock";
+import { useEffect } from "react";
 import {
   loadOperations,
   loadOperationsFailure,
   loadOperationsSuccess,
-} from '../redux/operations/actions';
+} from "../redux/operations/actions";
+import { useParams } from "react-router-dom";
 
 const TimelinePage: React.FC<any> = (props) => {
+  let params = useParams();
+  const { operations } = props;
+
   useEffect(() => {
     props.loadOperations();
-    getOperations(props.match.params.accountId)
+    getOperations(params.accountId)
       .then((operations) => props.loadOperationsSuccess(operations))
       .catch(() => props.loadOperationsFailure());
-  }, [props.match.params.accountId]);
-
-  const { operations } = props;
+  }, [params.accountId]);
 
   if (!operations) {
     return <h2>Подождите, идет загрузка</h2>;
@@ -32,7 +34,7 @@ const TimelinePage: React.FC<any> = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  operations: state.operationsStore.operations,
+  operations: state.operations,
 });
 
 const mapDispatchToProps = {

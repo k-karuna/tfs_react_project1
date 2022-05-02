@@ -1,9 +1,6 @@
-import React from 'react';
-import withTitle from '../decorators/withTitle';
-
-import NewAccountForm from '../components/NewAccountForm/NewAccountForm';
-import { connect } from 'react-redux';
-import { addAccount } from '../redux/accounts/actions';
+import React from "react";
+import withTitle from "../decorators/withTitle";
+import NewAccountForm from "../components/NewAccountForm/NewAccountForm";
 
 const AddNewCardPage: React.FC<any> = (props) => (
   <>
@@ -12,10 +9,4 @@ const AddNewCardPage: React.FC<any> = (props) => (
   </>
 );
 
-const mapDispatchProps = {
-  addAccount: addAccount,
-};
-
-export default withTitle(() => 'Добавить карту')(
-  connect(null, mapDispatchProps)(AddNewCardPage)
-);
+export default withTitle(() => "Добавить карту")(AddNewCardPage);

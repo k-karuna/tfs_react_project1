@@ -1,16 +1,17 @@
-import React from 'react';
-import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
+import React from "react";
+import { mount } from "enzyme";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
-import App from './App';
-import * as request from './services/requestMock';
-import accounts from './mocks/accountsMock.json';
+import App from "./App";
+import * as request from "./services/requestMock";
+import accounts from "./mocks/accountsMock.json";
 
-import store from './redux/store/store';
+import store from "./redux/store/store";
 
 let getAccounts;
 
-describe('Интеграционный тест', () => {
+describe("Интеграционный тест", () => {
   /*
    * Проверяем интеграцию модулей и загрузку данных
    * для загрузки данных необходимо в компоненте реализовать метод fetchAccounts, который будет
@@ -19,14 +20,16 @@ describe('Интеграционный тест', () => {
 
   beforeEach(() => {
     getAccounts = jest
-      .spyOn(request, 'getAccounts')
+      .spyOn(request, "getAccounts")
       .mockReturnValue(Promise.resolve(accounts));
   });
 
-  it('После монтирования компонента происходит загрузка данных', () => {
+  it("После монтирования компонента происходит загрузка данных", () => {
     mount(
       <Provider store={store}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </Provider>
     );
 

@@ -1,9 +1,9 @@
 import {
-    loadOperationsAction,
-    loadOperationsFailureAction,
-    loadOperationsSuccess,
-} from './actions';
-import reducer from './reducer';
+  loadOperations,
+  loadOperationsFailure,
+  loadOperationsSuccess,
+} from "./actions";
+import reducer from "./reducer";
 
 /**
  * Переводим наше приложение на redux
@@ -23,45 +23,45 @@ import reducer from './reducer';
  */
 
 const operationsState = [
-    {
-        title: 'АТАК',
-        date: 1554572477021,
-        amount: -2000,
-        currency: 'RUB',
-        id: 1,
-    },
-    {
-        title: 'Фастфуд',
-        date: 1554572470000,
-        amount: -300,
-        currency: 'RUB',
-        id: 2,
-    },
-    {
-        title: 'Салон красоты',
-        date: 1554512470000,
-        amount: -300,
-        currency: 'RUB',
-        id: 3,
-    },
+  {
+    title: "АТАК",
+    date: 1554572477021,
+    amount: -2000,
+    currency: "RUB",
+    id: 1,
+  },
+  {
+    title: "Фастфуд",
+    date: 1554572470000,
+    amount: -300,
+    currency: "RUB",
+    id: 2,
+  },
+  {
+    title: "Салон красоты",
+    date: 1554512470000,
+    amount: -300,
+    currency: "RUB",
+    id: 3,
+  },
 ];
 
-describe('accounts reducer', () => {
-    it('Дефолтное состояние = []', () => {
-        expect(reducer(undefined, { type: 'INIT' })).toEqual([]);
-    });
+describe("accounts reducer", () => {
+  it("Дефолтное состояние = []", () => {
+    expect(reducer(undefined, { type: "INIT" })).toEqual([]);
+  });
 
-    it('При загрузке аккаунтов сбрасываем состояние до null', () => {
-        expect(reducer(operationsState, loadOperationsAction())).toBe(null);
-    });
+  it("При загрузке аккаунтов сбрасываем состояние до null", () => {
+    expect(reducer(operationsState, loadOperations())).toBe(null);
+  });
 
-    it('Если при загрузке произошла ошибка, то возвращаем null', () => {
-        expect(reducer(operationsState, loadOperationsFailureAction())).toBe(null);
-    });
+  it("Если при загрузке произошла ошибка, то возвращаем null", () => {
+    expect(reducer(operationsState, loadOperationsFailure())).toBe(null);
+  });
 
-    it('Успешная загрузка данных, записываем в state загруженные данные', () => {
-        expect(reducer([], loadOperationsSuccess(operationsState))).toEqual(
-            operationsState
-        );
-    });
+  it("Успешная загрузка данных, записываем в state загруженные данные", () => {
+    expect(reducer([], loadOperationsSuccess(operationsState))).toEqual(
+      operationsState
+    );
+  });
 });

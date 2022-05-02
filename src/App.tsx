@@ -1,33 +1,24 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-import Board from './components/Board/Board';
-import TimelinePage from './pages/TimelinePage';
-import NotFoundPage from './pages/NotFoundPage';
+import Board from "./components/Board/Board";
+import TimelinePage from "./pages/TimelinePage";
+import NotFoundPage from "./pages/NotFoundPage";
 
-import styles from './App.module.css';
+import styles from "./App.module.css";
 
 import {
   loadAccounts,
   loadAccountsSuccess,
   loadAccountsFailure,
-} from './redux/accounts/actions';
+  addAccount,
+} from "./redux/accounts/actions";
 
-import AddNewCardPage from './pages/AddNewCardPage';
-import { getAccounts } from './services/requestMock';
+import AddNewCardPage from "./pages/AddNewCardPage";
+import { getAccounts } from "./services/requestMock";
 
 const App: React.FC<any> = (props) => {
-  const renderTimelinePage = (routeProps) => (
-    <TimelinePage {...routeProps} accounts={props.accounts} />
-  );
-
-  // const renderAddNewCardPage = (routeProps) => (
-  //   <AddNewCardPage {...routeProps} handleSubmit={handleSubmit} />
-  // );
-
-  // const handleSubmit = (newAccount) => props.addAccount(newAccount);
-
   useEffect(() => {
     props.loadAccounts();
     getAccounts()
@@ -36,29 +27,52 @@ const App: React.FC<any> = (props) => {
   }, []);
 
   return (
-    <Router>
-      <Board accounts={props.accounts} />
-      <div className={styles.pageContent}>
-        <Switch>
-          <Route path="/account/:accountId" render={renderTimelinePage} />
-          <Route path="/actions/add_card" component={AddNewCardPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </div>
-    </Router>
+    <>
+      <Routes>
+        <Route path="/" element={<Layout {...props} />}>
+          <Route path="account">
+            <Route
+              path=":accountId"
+              element={<TimelinePage {...props} accounts={props.accounts} />}
+            />
+          </Route>
+          <Route path="actions">
+            <Route
+              path="add_card"
+              element={
+                <AddNewCardPage {...props} handleSubmit={props.addAccount} />
+              }
+            />
+          </Route>
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  accounts: state.accountsStore.accounts,
-  isLoading: state.accountsStore.isLoading,
-});
+function Layout(props) {
+  return (
+    <>
+      <Board accounts={props.accounts} />
+      <div className={styles.pageContent}>
+        <Outlet />
+      </div>
+    </>
+  );
+}
+
+const mapStateToProps = function (state) {
+  return {
+    accounts: state.accounts,
+  };
+};
 
 const mapDispatchToProps = {
   loadAccounts: loadAccounts,
   loadAccountsSuccess: loadAccountsSuccess,
   loadAccountsFailure: loadAccountsFailure,
-  // addAccount,
+  addAccount,
 };
 
 export { App };

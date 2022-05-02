@@ -1,9 +1,11 @@
-export const LOAD_ACCOUNTS = 'LOAD_ACCOUNTS';
-export const LOAD_ACCOUNTS_FAILURE = 'LOAD_ACCOUNTS_FAILURE';
-export const LOAD_ACCOUNTS_SUCCESS = 'LOAD_ACCOUNTS_SUCCESS';
-export const CHANGE_ACCOUNT_TITLE = 'CHANGE_ACCOUNT_TITLE';
-export const ADD_ACCOUNT = 'ADD_ACCOUNT';
-export const REMOVE_EXTERNAL_ACCOUNT = 'REMOVE_EXTERNAL_ACCOUNT';
+import { Account } from "./reducer";
+
+export const LOAD_ACCOUNTS = "LOAD_ACCOUNTS";
+export const LOAD_ACCOUNTS_FAILURE = "LOAD_ACCOUNTS_FAILURE";
+export const LOAD_ACCOUNTS_SUCCESS = "LOAD_ACCOUNTS_SUCCESS";
+export const CHANGE_ACCOUNT_TITLE = "CHANGE_ACCOUNT_TITLE";
+export const ADD_ACCOUNT = "ADD_ACCOUNT";
+export const REMOVE_EXTERNAL_ACCOUNT = "REMOVE_EXTERNAL_ACCOUNT";
 
 export const loadAccounts = () => ({
   type: LOAD_ACCOUNTS,
@@ -20,11 +22,11 @@ export const loadAccountsSuccess = (accounts) => ({
   },
 });
 
-export const changeAccountTitle = (accountId, newTitle) => ({
+export const changeAccountTitle = ({ id, customTitle }) => ({
   type: CHANGE_ACCOUNT_TITLE,
   payload: {
-    accountId,
-    newTitle,
+    id,
+    customTitle,
   },
 });
 
@@ -35,9 +37,9 @@ export const addAccount = (account) => ({
   },
 });
 
-export const removeExternalAccount = (accountId) => ({
+export const removeExternalAccount = (account: Account) => ({
   type: REMOVE_EXTERNAL_ACCOUNT,
   payload: {
-    accountId,
+    account,
   },
 });

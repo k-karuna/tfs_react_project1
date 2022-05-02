@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import accounts from './accounts/reducer';
-import operations from './operations/reducer';
+import accounts from "./accounts/reducer";
+import operations from "./operations/reducer";
 
 export default combineReducers({
-  accountsStore: accounts,
-  operationsStore: operations,
+  accounts: accounts,
+  operations: operations,
 });
