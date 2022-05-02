@@ -4,6 +4,6 @@ import accounts from './accounts/reducer';
 import operations from './operations/reducer';
 
 export default combineReducers({
-    accounts,
-    operations,
+  accountsStore: accounts,
+  operationsStore: operations,
 });

@@ -10,3 +10,23 @@
   transition: width 0.25s ease;
   overflow: scroll;
 }
+.link {
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+.activeItem {
+  background-color: #f2f2f2;
+}
+
+.actionItem {
+  padding: 25px 15px 25px;
+  border-bottom: 1px solid #dddfe0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actionItem:hover {
+  background-color: #f2f2f2;
+}

@@ -1,3 +1,8 @@
-const NotFoundPage: React.FC<any> = () => null;
+import React from 'react';
+import withTitle from '../decorators/withTitle';
 
-export default NotFoundPage;
+const NotFoundPage: React.FC<any> = () => (
+  <h2>Упс... Похоже вы забрели не туда :)</h2>
+);
+
+export default withTitle(() => 'Страница не найдена')(NotFoundPage);

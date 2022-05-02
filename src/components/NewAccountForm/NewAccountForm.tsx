@@ -50,7 +50,6 @@ export default class NewAccountForm extends React.Component<any, any> {
   render() {
     return (
       <form onSubmit={this.handleFormSubmit}>
-        <h2>Привязка банковской карты</h2>
         <div className={styles.cardForm}>
           <MaskedInput
             mask="1111 1111 1111 1111"

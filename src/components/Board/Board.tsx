@@ -1,51 +1,49 @@
 import React from 'react';
-
+import { NavLink } from 'react-router-dom';
 import BoardItem from '../BoardItem/BoardItem';
-
+import { compareAccounts } from '../../utils/accounts';
 import styles from './Board.module.css';
 
-enum CardType {
-  debit,
-  credit,
-  external,
-  saving,
-  loan,
-}
+// enum CardType {
+//   debit,
+//   credit,
+//   external,
+//   saving,
+//   loan,
+// }
 
-enum CurrencyType {
-  RUB,
-  USD,
-  EUR,
-  GBP,
-}
+// enum CurrencyType {
+//   RUB,
+//   USD,
+//   EUR,
+//   GBP,
+// }
 
 const Board: React.FC<any> = ({ accounts }) => {
-  const sortedAccounts = [...accounts].sort((acc1, acc2) => {
-    if (acc1.type === acc2.type) {
-      return (
-        Object.keys(CurrencyType).indexOf(acc1.currency) -
-        Object.keys(CurrencyType).indexOf(acc2.currency)
-      );
-    }
-    return (
-      Object.keys(CardType).indexOf(acc1.type) -
-      Object.keys(CardType).indexOf(acc2.type)
-    );
-  });
+  if (!accounts) {
+    return null;
+  }
+
+  const sortedAccounts = accounts.slice().sort(compareAccounts);
   return (
     <div className={styles.board}>
-      {sortedAccounts.map((account) => {
-        return (
-          <BoardItem
-            key={account.id}
-            title={account.title}
-            type={account.type}
-            customTitle={account.customTitle}
-            amount={account.amount}
-            currency={account.currency}
-          />
-        );
-      })}
+      {sortedAccounts.map((account) => (
+        <NavLink
+          key={account.id}
+          to={`/account/${account.id}`}
+          className={styles.link}
+          activeClassName={styles.activeItem}
+        >
+          <BoardItem {...account} />
+        </NavLink>
+      ))}
+      <NavLink
+        to="/actions/add_card"
+        className={styles.link}
+        activeClassName={styles.activeItem}
+      >
+        <div className={styles.actionItem}>Привязать карту</div>
+      </NavLink>
     </div>
   );
 };
